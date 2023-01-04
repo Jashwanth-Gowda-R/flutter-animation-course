@@ -88,7 +88,7 @@ class _StopwatchState extends State<Stopwatch>
                 width: 80,
                 height: 80,
                 child: ResetButton(
-                  onPressed: () {},
+                  onPressed: _reset,
                 ),
               ),
             ),
