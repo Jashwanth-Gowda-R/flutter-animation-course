@@ -43,8 +43,14 @@ class _StopwatchState extends State<Stopwatch>
   // don't forget to cancel the timer on dispose!
   @override
   Widget build(BuildContext context) {
-    return StopWatchRenderer(
-      elapsed: _elapsed,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final radius = constraints.maxWidth / 2;
+        return StopWatchRenderer(
+          elapsed: _elapsed,
+          radius: radius,
+        );
+      },
     );
   }
 }
