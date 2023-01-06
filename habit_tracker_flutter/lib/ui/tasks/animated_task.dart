@@ -9,6 +9,7 @@ class AnimatedTask extends StatefulWidget {
 class _AnimatedTaskState extends State<AnimatedTask>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
+  late final Animation<double> _curveAnimation;
 
   @override
   void initState() {
@@ -18,7 +19,23 @@ class _AnimatedTaskState extends State<AnimatedTask>
       vsync: this,
       duration: Duration(),
     );
-    _animationController.forward();
+    _curveAnimation = _animationController.drive(
+      CurveTween(curve: Curves.easeInOut),
+    );
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    if (_animationController.status != AnimationStatus.completed) {
+      _animationController.forward();
+    } else {
+      _animationController.reset();
+    }
+  }
+
+  void _handleTapUp(TapUpDetails details) {
+    if (_animationController.status != AnimationStatus.completed) {
+      _animationController.reverse();
+    }
   }
 
   @override
@@ -30,13 +47,17 @@ class _AnimatedTaskState extends State<AnimatedTask>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (BuildContext context, Widget? child) {
-        return TaskCompletionRing(
-          progress: _animationController.value,
-        );
-      },
+    return GestureDetector(
+      onTapDown: _handleTapDown,
+      onTapUp: _handleTapUp,
+      child: AnimatedBuilder(
+        animation: _curveAnimation,
+        builder: (BuildContext context, Widget? child) {
+          return TaskCompletionRing(
+            progress: _curveAnimation.value,
+          );
+        },
+      ),
     );
   }
 }
