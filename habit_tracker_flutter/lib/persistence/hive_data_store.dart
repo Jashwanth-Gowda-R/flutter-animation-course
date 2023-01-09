@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:habit_tracker_flutter/models/task.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,5 +23,9 @@ class HiveDataStore {
       await box.clear();
       await box.addAll(tasks);
     }
+  }
+
+  ValueListenable<Box<Task>> tasksListenable() {
+    return Hive.box<Task>(tasksBoxName).listenable();
   }
 }
