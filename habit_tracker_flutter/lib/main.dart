@@ -9,7 +9,6 @@ import 'package:habit_tracker_flutter/ui/theming/app_theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppAssets.preloadSVGs();
-  // new code for hive
   final dataStore = HiveDataStore();
   await dataStore.init();
   await dataStore.createDemoTasks(
@@ -21,7 +20,7 @@ Future<void> main() async {
       Task.create(name: 'Brush Your Teeth', iconName: AppAssets.toothbrush),
       Task.create(name: 'Floss Your Teeth', iconName: AppAssets.dentalFloss),
     ],
-    force: false, 
+    force: false,
   );
   runApp(MyApp());
 }

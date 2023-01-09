@@ -19,9 +19,11 @@ class HiveDataStore {
     bool force = false,
   }) async {
     final box = Hive.box<Task>(tasksBoxName);
-    if (box.isEmpty || force == true) {
+    if (box.isEmpty || force) {
       await box.clear();
       await box.addAll(tasks);
+    } else {
+      print('Box already has ${box.length} items');
     }
   }
 
