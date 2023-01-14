@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class PageFlipBuilder extends StatefulWidget {
@@ -57,6 +59,46 @@ class PageFlipBuilderState extends State<PageFlipBuilder>
   @override
   Widget build(BuildContext context) {
     // TODO: call frontBuilder or backBuilder depending on some state
-    return widget.frontBuilder(context);
+    return AnimatedPageFlipBuilder(
+      animation: _controller,
+      frontBuilder: widget.frontBuilder,
+      backBuilder: widget.frontBuilder,
+    );
+  }
+}
+
+class AnimatedPageFlipBuilder extends AnimatedWidget {
+  const AnimatedPageFlipBuilder({
+    Key? key,
+    required Animation<double> animation,
+    required this.frontBuilder,
+    required this.backBuilder,
+  }) : super(key: key, listenable: animation);
+  final WidgetBuilder frontBuilder;
+  final WidgetBuilder backBuilder;
+
+  Animation<double> get animation => listenable as Animation<double>;
+
+  @override
+  Widget build(BuildContext context) {
+    // this boolean tells us if we're on the first or second half of the animation
+    final isAnimationFirstHalf = animation.value < 0.5;
+    // decide which page we need to show
+    final child =
+        isAnimationFirstHalf ? frontBuilder(context) : backBuilder(context);
+    // map values between [0, 1] to values between [0, pi]
+    final rotationValue = animation.value * pi;
+    // calculate the correct rotation angle depending on which side we need to show
+    final rotationAngle =
+        animation.value > 0.5 ? pi - rotationValue : rotationValue;
+    // calculate tilt
+    var tilt = (animation.value - 0.5).abs() - 0.5;
+    // make this a small value (positive or negative as needed)
+    tilt *= isAnimationFirstHalf ? -0.003 : 0.003;
+    return Transform(
+      transform: Matrix4.rotationY(rotationAngle)..setEntry(3, 0, tilt),
+      child: child,
+      alignment: Alignment.center,
+    );
   }
 }
