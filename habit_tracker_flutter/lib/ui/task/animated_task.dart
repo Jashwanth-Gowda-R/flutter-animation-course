@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:habit_tracker_flutter/constants/app_assets.dart';
 import 'package:habit_tracker_flutter/ui/common_widgets/centered_svg_icon.dart';
 import 'package:habit_tracker_flutter/ui/task/task_completion_ring.dart';

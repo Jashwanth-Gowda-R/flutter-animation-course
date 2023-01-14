@@ -8,10 +8,9 @@ import 'package:hive/hive.dart';
 class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final dataStore = HiveDataStore();
     final dataStore = ref.watch(dataStoreProvider);
     return ValueListenableBuilder(
-      valueListenable: dataStore.tasksListenable(),
+      valueListenable: dataStore.frontTasksListenable(),
       builder: (_, Box<Task> box, __) => TasksGridPage(
         tasks: box.values.toList(),
       ),

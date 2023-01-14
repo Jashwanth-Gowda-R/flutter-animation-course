@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:habit_tracker_flutter/constants/text_styles.dart';
 import 'package:habit_tracker_flutter/models/task.dart';
 import 'package:habit_tracker_flutter/ui/task/animated_task.dart';
